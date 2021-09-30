@@ -1,0 +1,143 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: nautobot
+  name: nautobot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nautobot
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: nautobot
+    spec:
+      containers:
+      - env:
+        - name: NAUTOBOT_ALLOWED_HOSTS
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_ALLOWED_HOSTS
+              name: nautobot-dev-env
+        - name: NAUTOBOT_CHANGELOG_RETENTION
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_CHANGELOG_RETENTION
+              name: nautobot-dev-env
+        - name: NAUTOBOT_CONFIG
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_CONFIG
+              name: nautobot-dev-env
+        - name: NAUTOBOT_DB_ENGINE
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_DB_ENGINE
+              name: nautobot-dev-env
+        - name: NAUTOBOT_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_DB_HOST
+              name: nautobot-dev-env
+        - name: NAUTOBOT_DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_DB_NAME
+              name: nautobot-dev-env
+        - name: NAUTOBOT_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_DB_PASSWORD
+              name: nautobot-dev-env
+        - name: NAUTOBOT_DB_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_DB_TIMEOUT
+              name: nautobot-dev-env
+        - name: NAUTOBOT_DB_USER
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_DB_USER
+              name: nautobot-dev-env
+        - name: NAUTOBOT_MAX_PAGE_SIZE
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_MAX_PAGE_SIZE
+              name: nautobot-dev-env
+        - name: NAUTOBOT_NAPALM_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_NAPALM_TIMEOUT
+              name: nautobot-dev-env
+        - name: NAUTOBOT_REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_REDIS_HOST
+              name: nautobot-dev-env
+        - name: NAUTOBOT_REDIS_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_REDIS_PASSWORD
+              name: nautobot-dev-env
+        - name: NAUTOBOT_REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_REDIS_PORT
+              name: nautobot-dev-env
+        - name: NAUTOBOT_SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_SECRET_KEY
+              name: nautobot-dev-env
+        - name: NAUTOBOT_SELENIUM_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_SELENIUM_HOST
+              name: nautobot-dev-env
+        - name: NAUTOBOT_SELENIUM_URL
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_SELENIUM_URL
+              name: nautobot-dev-env
+        - name: PGPASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: PGPASSWORD
+              name: nautobot-dev-env
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_DB
+              name: nautobot-dev-env
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_PASSWORD
+              name: nautobot-dev-env
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_USER
+              name: nautobot-dev-env
+        - name: REDIS_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: REDIS_PASSWORD
+              name: nautobot-dev-env
+        image: asenishith/node-kubernetes
+        name: nautobotase
+        ports:
+        - containerPort: 8080
+        command: ["/bin/sh", "-ec", "sleep 1000"]
+        resources: {}
+        tty: true
+      restartPolicy: Always
+status: {}
