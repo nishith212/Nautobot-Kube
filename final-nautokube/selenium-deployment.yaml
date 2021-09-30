@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: selenium
+  name: selenium
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: selenium
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: selenium
+    spec:
+      containers:
+      - image: selenium/standalone-firefox:latest
+        name: selenium
+        ports:
+        - containerPort: 4444
+        resources: {}
+      restartPolicy: Always
+status: {}

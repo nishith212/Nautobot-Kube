@@ -1,0 +1,156 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: celery-worker
+  name: celery-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: celery-worker
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: celery-worker
+    spec:
+      containers:
+      - command:
+        - nautobot-server
+        - celery
+        - worker
+        - -l
+        - INFO
+        env:
+        - name: NAUTOBOT_ALLOWED_HOSTS
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_ALLOWED_HOSTS
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_CHANGELOG_RETENTION
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_CHANGELOG_RETENTION
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_CONFIG
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_CONFIG
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_DB_ENGINE
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_DB_ENGINE
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_DB_HOST
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_DB_NAME
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_DB_PASSWORD
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_DB_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_DB_TIMEOUT
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_DB_USER
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_DB_USER
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_MAX_PAGE_SIZE
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_MAX_PAGE_SIZE
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_NAPALM_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_NAPALM_TIMEOUT
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_REDIS_HOST
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_REDIS_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_REDIS_PASSWORD
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_REDIS_PORT
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_SECRET_KEY
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_SELENIUM_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_SELENIUM_HOST
+              name: celery-worker-dev-env
+        - name: NAUTOBOT_SELENIUM_URL
+          valueFrom:
+            configMapKeyRef:
+              key: NAUTOBOT_SELENIUM_URL
+              name: celery-worker-dev-env
+        - name: PGPASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: PGPASSWORD
+              name: celery-worker-dev-env
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_DB
+              name: celery-worker-dev-env
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_PASSWORD
+              name: celery-worker-dev-env
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_USER
+              name: celery-worker-dev-env
+        - name: REDIS_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: REDIS_PASSWORD
+              name: celery-worker-dev-env
+        image: asenishith/node-kubernetes:latest
+        livenessProbe:
+          exec:
+            command:
+            - nautobot-server
+            - health_check
+          initialDelaySeconds: 120
+          failureThreshold: 3
+          periodSeconds: 50
+          timeoutSeconds: 50
+        name: nautobotcelery
+        command: ["/bin/sh", "-ec", "sleep 1000"]
+        resources: {}
+        tty: true
+      restartPolicy: Always
+status: {}
